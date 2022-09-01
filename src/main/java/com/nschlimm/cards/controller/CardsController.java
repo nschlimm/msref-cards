@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,7 +22,7 @@ import com.nschlimm.cards.model.Properties;
 import com.nschlimm.cards.repository.CardsRepository;
 
 /**
- * @author Eazy Bytes
+ * @author Niklas Schlimm
  *
  */
 
@@ -35,7 +36,7 @@ public class CardsController {
     private CardsConfigService config;
 
     @PostMapping("/myCards")
-    public List<Cards> getCardDetails(@RequestBody Customer customer) {
+    public List<Cards> getCardDetails(@RequestHeader("schlimmbank-correlation-id") String correlationId,@RequestBody Customer customer) {
         List<Cards> cards = cardsRepository.findByCustomerId(customer.getCustomerId());
         if (cards != null) {
             return cards;
