@@ -5,6 +5,8 @@ package com.nschlimm.cards.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,9 @@ import com.nschlimm.cards.repository.CardsRepository;
 @RestController
 public class CardsController {
 
+    
+    private static final Logger log = LoggerFactory.getLogger(CardsController.class);
+
     @Autowired
     private CardsRepository cardsRepository;
 
@@ -37,7 +42,9 @@ public class CardsController {
 
     @PostMapping("/myCards")
     public List<Cards> getCardDetails(@RequestHeader("schlimmbank-correlation-id") String correlationId,@RequestBody Customer customer) {
+        log.info("getCardDetails() method started");
         List<Cards> cards = cardsRepository.findByCustomerId(customer.getCustomerId());
+        log.info("getCardDetails() method ended");
         if (cards != null) {
             return cards;
         } else {
